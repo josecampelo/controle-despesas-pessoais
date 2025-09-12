@@ -21,9 +21,19 @@ public class TransacoesController : Controller
     [HttpGet]
     public async Task<IActionResult> IndexAsync()
     {
-        var todasAsTransacoes = await _context.Transacoes.ToListAsync();
-        
-        return View("Index", todasAsTransacoes);
+        var model = await _context.Transacoes
+            .OrderByDescending(transacao => transacao.Data)
+            .Select(transacao => new TransacaoIndexViewModel
+            {
+                Id = transacao.Id,
+                Descricao = transacao.Descricao,
+                Valor = transacao.Valor,
+                Tipo = transacao.Tipo,
+                Data = transacao.Data
+            })
+            .ToListAsync();
+
+        return View("Index", model);
     }
 
     /// <summary>
