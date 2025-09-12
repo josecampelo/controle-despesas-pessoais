@@ -47,8 +47,8 @@ public class TransacoesController : Controller
             {
                 _context.Add(transacao);
                 await _context.SaveChangesAsync();
-                
-                return RedirectToAction(nameof(IndexAsync));
+
+                return RedirectToAction("Index");
             }
         }
         catch (DbUpdateException)
