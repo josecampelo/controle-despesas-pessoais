@@ -1,5 +1,6 @@
 ﻿using ControleDespesas.Data;
 using ControleDespesas.Models;
+using ControleDespesas.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,15 +40,23 @@ public class TransacoesController : Controller
     /// </summary>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateAsync([Bind("Descricao,Valor,Tipo,Data")] Transacao transacao)
+    public async Task<IActionResult> CreateAsync(TransacaoViewModel model)
     {
         try
         {
             if (ModelState.IsValid)
             {
+                var transacao = new Transacao
+                {
+                    Descricao = model.Descricao,
+                    Valor = model.Valor,
+                    Tipo = model.Tipo,
+                    Data = model.Data
+                };
+
                 _context.Add(transacao);
                 await _context.SaveChangesAsync();
-
+                
                 return RedirectToAction("Index");
             }
         }
@@ -56,6 +65,6 @@ public class TransacoesController : Controller
             ModelState.AddModelError("", "Não foi possível salvar os dados.");
         }
 
-        return View("Create", transacao);
+        return View("Create", model);
     }
 }
