@@ -8,25 +8,27 @@
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/ControleDespesas.styles.css" asp-append-version="true" />
     </head>
-    <body>
-        <header class="container">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-success border-bottom box-shadow mb-3">
-            <div class="container-fluid">
+    <body class="d-flex flex-column min-vh-100">
+        <header class="mb-2 container">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-success border-bottom box-shadow mb-3">
+                <div class="container-fluid">
                     <a class="navbar-brand" asp-area="" asp-controller="Transacoes" asp-action="Index">Controle de Despesas</a>
                 </div>
             </nav>
         </header>
-        <div class="container">
+
+        <div class="container flex-grow-1">
             <main role="main" class="pb-3">
                 @RenderBody()
             </main>
         </div>
 
-        <footer class=" footer ">
-            <div class="container border-top text-muted">
+        <footer class="footer text-muted">
+            <div class="container">
                 &copy; 2025 - Controle de Despesas
             </div>
         </footer>
+
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
