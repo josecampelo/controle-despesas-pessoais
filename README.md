@@ -6,7 +6,7 @@ Projeto acadêmico desenvolvido para a disciplina de **Software Product: Analysi
 
 ## Status do Projeto
 
-**Etapa 1 (MVP) - Concluída em 13/09/2025**
+**Etapa 1: Estruturação do Projeto e CRUD Inicial de Transações (Criar e Ler) - Concluída em 13/09/2025**
 
 ---
 
@@ -76,3 +76,4 @@ Siga os passos abaixo para rodar o projeto em seu ambiente local.
 
 5.  **Execute a Aplicação:**
     * Pressione `F5` ou clique no botão de "play" para iniciar o projeto. O site abrirá no seu navegador padrão.
+
