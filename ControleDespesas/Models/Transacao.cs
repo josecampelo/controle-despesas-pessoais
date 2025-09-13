@@ -27,7 +27,7 @@ public class Transacao
     /// <summary>
     /// Define o tipo da transação. Deve conter "Receita" ou "Despesa".
     /// </summary>
-    public string Tipo { get; set; } = string.Empty;
+    public TipoTransacao Tipo { get; set; }
 
     /// <summary>
     /// A data e hora em que a transação ocorreu.

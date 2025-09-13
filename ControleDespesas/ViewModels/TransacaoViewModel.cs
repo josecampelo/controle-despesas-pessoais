@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ControleDespesas.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ControleDespesas.ViewModels;
 
@@ -15,7 +16,7 @@ public class TransacaoViewModel
 
     [Required(ErrorMessage = "O campo Tipo é obrigatório.")]
     [Display(Name = "Tipo")]
-    public string Tipo { get; set; } = string.Empty;
+    public TipoTransacao Tipo { get; set; }
 
     [Required(ErrorMessage = "O campo Data é obrigatório.")]
     [Display(Name = "Data")]
