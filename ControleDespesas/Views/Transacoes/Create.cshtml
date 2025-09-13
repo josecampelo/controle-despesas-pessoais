@@ -24,7 +24,9 @@
             </div>
             <div class="form-group mb-3">
                 <label asp-for="Tipo" class="control-label"></label>
-                <input asp-for="Tipo" class="form-control" />
+                <select asp-for="Tipo" class="form-control" asp-items="Html.GetEnumSelectList<TipoTransacao>()">
+                    <option value="" selected>Selecione...</option>
+                </select>
                 <span asp-validation-for="Tipo" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
