@@ -22,7 +22,7 @@ public class TransacoesController : Controller
     public async Task<IActionResult> IndexAsync()
     {
         var model = await _context.Transacoes
-            .OrderByDescending(transacao => transacao.Data)
+            .OrderByDescending(transacao => transacao.Id)
             .Select(transacao => new TransacaoIndexViewModel
             {
                 Id = transacao.Id,
