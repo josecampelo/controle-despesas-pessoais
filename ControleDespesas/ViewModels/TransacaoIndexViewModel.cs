@@ -36,5 +36,6 @@ public class TransacaoIndexViewModel
     /// A data em que a transação ocorreu.
     /// </summary>
     [Display(Name = "Data")]
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
     public DateTime Data { get; set; }
 }
