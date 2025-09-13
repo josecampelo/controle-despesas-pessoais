@@ -2,17 +2,16 @@
 @model IEnumerable<TransacaoIndexViewModel>
 
 @{
-    ViewData["Title"] = "Minhas Transações";
+    ViewData["Title"] = "Transações";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">@ViewData["Title"]</h1>
+    <a asp-action="Create" class="btn btn-success" title="Adicionar nova transação">Nova Transação</a>
+</div>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Adicionar Nova Transação</a>
-</p>
-
-<table class="table table-striped table-hover">
-    <thead>
+<table class="table table-striped table-hover table-bordered">
+    <thead class="thead-custom-green">
         <tr>
             <th>@Html.DisplayNameFor(model => model.Descricao)</th>
             <th>@Html.DisplayNameFor(model => model.Valor)</th>
