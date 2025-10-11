@@ -1,79 +1,91 @@
 # Controle de Despesas Pessoais
 
-Projeto acadêmico desenvolvido para a disciplina de **Software Product: Analysis, Specification, Project & Implementation** do 5º semestre do curso de Análise e Desenvolvimento de Sistemas. O objetivo é criar uma aplicação web completa para gerenciamento de finanças pessoais, com entregas incrementais ao longo do semestre.
+Aplicação web desenvolvida em **ASP.NET Core 8 MVC** para gerenciamento de finanças pessoais. Este projeto acadêmico foi criado para a disciplina de *Software Product: Analysis, Specification, Project & Implementation*, com entregas incrementais que constroem uma solução completa ao longo do semestre.
 
 ---
 
-## Status do Projeto
+## ✨ Funcionalidades
 
-**Etapa 1: Estruturação do Projeto e CRUD Inicial de Transações (Criar e Ler) - Concluída em 13/09/2025**
+### Dashboard (Etapa 2)
+- **Resumo Financeiro Mensal:** Cards de destaque exibem o total de receitas, despesas e o saldo final do mês corrente.
+- **Interface Intuitiva:** Layout visualmente claro com cores e ícones que facilitam a rápida identificação do status financeiro.
+- **Navegação Aprimorada:** Barra de navegação principal reestruturada para melhor usabilidade e responsividade.
 
----
-
-## Funcionalidades da Etapa 1
-
-* **Listagem de Transações:** Visualização de todas as receitas e despesas em uma tabela organizada e com estilo.
-* **Criação de Transações:** Formulário para adicionar novas transações (receitas ou despesas) com validações.
-* **Tipo de Transação Seguro:** Uso de `Enum` para garantir que o tipo seja apenas "Receita" ou "Despesa", com um dropdown na interface.
-* **Layout Responsivo:** Interface limpa e funcional, adaptada para diferentes tamanhos de tela graças ao Bootstrap.
-* **Persistência de Dados:** As informações são salvas em um banco de dados SQL Server através do Entity Framework Core.
+### Gerenciamento de Transações (Etapa 1)
+- **Listagem Completa:** Todas as receitas e despesas são exibidas em uma tabela organizada.
+- **Registro de Transações:** Formulário simples e validado para adicionar novas receitas ou despesas.
+- **Tipos de Transação:** Uso de `Enum` com um dropdown na interface para garantir a consistência dos dados (apenas "Receita" ou "Despesa").
 
 ---
 
-## Tecnologias Utilizadas
+## 🚀 Roadmap do Projeto
 
-Este projeto foi construído utilizando as seguintes tecnologias na sua camada de back-end, front-end e banco de dados:
+O projeto é dividido em 4 etapas principais:
 
-* **Back-end:**
-    * C# 12
-    * .NET 8
-    * ASP.NET Core MVC
-    * Entity Framework Core 8 (Code-First)
-* **Front-end:**
-    * HTML5 / CSS3
-    * Bootstrap 5.1
-    * Razor Pages
-* **Banco de Dados:**
-    * Microsoft SQL Server
-* **Ferramentas e Versionamento:**
-    * Git & GitHub
-    * Visual Studio 2022
-    * Azure Data Studio
+- [x] **Etapa 1: Estruturação e CRUD Inicial** - _Concluída em 13/09/2025_
+- [x] **Etapa 2: Dashboard com Resumo Financeiro** - _Concluída em 11/10/2025_
+- [ ] **Etapa 3: Gerenciamento de Categorias e Gráfico de Despesas**
+- [ ] **Etapa 4: Finalização do CRUD (Editar/Excluir) e Filtros**
 
 ---
 
-## Como Executar o Projeto
+## 🛠️ Tecnologias Utilizadas
+
+Este projeto foi construído com uma stack moderna e robusta:
+
+- **Back-end:**
+  - C# 12 / .NET 8
+  - ASP.NET Core MVC
+  - Entity Framework Core 8 (Code-First)
+- **Front-end:**
+  - HTML5 / CSS3
+  - Bootstrap 5
+  - Razor Pages
+- **Banco de Dados:**
+  - Microsoft SQL Server
+- **Ferramentas e Versionamento:**
+  - Visual Studio 2022
+  - Git & GitHub
+  - Azure Data Studio
+
+---
+
+## ⚙️ Como Executar o Projeto
 
 Siga os passos abaixo para rodar o projeto em seu ambiente local.
 
 ### Pré-requisitos
 
-* [.NET 8 SDK](https://dotnet.microsoft.com/pt-br/download/dotnet/8.0)
-* [Visual Studio 2022](https://visualstudio.microsoft.com/pt-br/vs/)
-* [SQL Server Express Edition](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads)
+- [.NET 8 SDK](https://dotnet.microsoft.com/pt-br/download/dotnet/8.0)
+- [Visual Studio 2022](https://visualstudio.microsoft.com/pt-br/vs/)
+- [SQL Server Express Edition](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads)
 
 ### Passos
 
 1.  **Clone o repositório:**
     ```bash
-    git clone https://github.com/josecampelo/controle-despesas-pessoais.git
+    git clone [https://github.com/josecampelo/controle-despesas-pessoais.git](https://github.com/josecampelo/controle-despesas-pessoais.git)
+    cd controle-despesas-pessoais
     ```
 
-2.  **Abra o projeto:**
-    * Navegue até a pasta clonada e abra a solução `ControleDespesas.sln` no Visual Studio.
+2.  **Abra a solução (`.sln`) no Visual Studio.**
 
 3.  **Configure a String de Conexão:**
-    * Abra o arquivo `appsettings.json`.
-    * Verifique se a `DefaultConnection` em `ConnectionStrings` aponta para a sua instância local do SQL Server Express. O padrão é:
-        `"Server=.\\SQLEXPRESS;Database=ControleDespesasDB_MVC;Trusted_Connection=True;TrustServerCertificate=True;"`
+    - No arquivo `appsettings.json`, verifique se a `DefaultConnection` está configurada para sua instância do SQL Server.
+    - O padrão é: `"Server=.\\SQLEXPRESS;Database=ControleDespesasDB_MVC;Trusted_Connection=True;TrustServerCertificate=True;"`
 
-4.  **Aplique as Migrations:**
-    * No Visual Studio, vá em `Ferramentas > Gerenciador de Pacotes do NuGet > Console do Gerenciador de Pacotes`.
-    * Execute o comando para criar o banco de dados e as tabelas:
-        ```powershell
-        Update-Database
-        ```
+4.  **Aplique as Migrations para criar o banco de dados:**
+    - No Visual Studio, abra o **Console do Gerenciador de Pacotes** (`Ferramentas > ...`).
+    - Execute o comando:
+      ```powershell
+      Update-Database
+      ```
 
 5.  **Execute a Aplicação:**
-    * Pressione `F5` ou clique no botão de "play" para iniciar o projeto. O site abrirá no seu navegador padrão.
+    - Pressione `F5` ou o botão de execução para iniciar o projeto.
 
+---
+
+## 📝 Licença
+
+Este projeto é de natureza acadêmica e não possui uma licença formal para distribuição ou uso comercial.
