@@ -33,3 +33,11 @@ main[role="main"] {
     background-color: var(--bs-success);
     color: var(--bs-white);
 }
+
+.text-xs {
+    font-size: .8rem;
+}
+
+.text-white-50 {
+    color: rgba(255, 255, 255, .5) !important;
+}
