@@ -1,0 +1,71 @@
+﻿@model ControleDespesas.ViewModels.DashboardIndexViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2">@ViewData["Title"]</h1>
+    <h4 class="text-muted mb-4">Resumo do mês de @DateTime.Now.ToString("MMMM 'de' yyyy")</h4>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card bg-success text-white shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">
+                            <strong>@Html.DisplayNameFor(model => model.ReceitaTotal)</strong>
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold">
+                            @Html.DisplayFor(model => model.ReceitaTotal)
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-arrow-up fa-2x text-white-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card bg-danger text-white shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">
+                            <strong>@Html.DisplayNameFor(model => model.DespesaTotal)</strong>
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold">
+                            @Html.DisplayFor(model => model.DespesaTotal)
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-arrow-down fa-2x text-white-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card bg-primary text-white shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">
+                            <strong>@Html.DisplayNameFor(model => model.SaldoFinal)</strong>
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold">
+                            @Html.DisplayFor(model => model.SaldoFinal)
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-balance-scale fa-2x text-white-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
