@@ -20,6 +20,11 @@ public class AppDbContext : DbContext
     public DbSet<Transacao> Transacoes { get; set; }
 
     /// <summary>
+    /// Mapeia a entidade 'Categoria' para uma tabela no banco de dados.
+    /// </summary>
+    public DbSet<Categoria> Categorias { get; set; }
+
+    /// <summary>
     /// Configura o modelo de dados e o mapeamento para o banco de dados.
     /// Este método é chamado pelo Entity Framework Core durante a inicialização do contexto.
     /// </summary>
@@ -31,5 +36,13 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Transacao>()
             .Property(transacao => transacao.Tipo)
             .HasConversion<string>();
+
+        modelBuilder.Entity<Categoria>()
+            .Property(categoria => categoria.Tipo)
+            .HasConversion<string>();
+
+        modelBuilder.Entity<Categoria>()
+            .HasIndex(c => new { c.Nome, c.Tipo })
+            .IsUnique();
     }
 }
