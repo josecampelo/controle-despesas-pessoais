@@ -1,4 +1,5 @@
 ﻿using ControleDespesas.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace ControleDespesas.ViewModels;
@@ -37,4 +38,16 @@ public class TransacaoViewModel
     [Required(ErrorMessage = "O campo Data é obrigatório.")]
     [Display(Name = "Data")]
     public DateTime Data { get; set; }
+
+    /// <summary>
+    /// Identificador da categoria associada à transação.
+    /// </summary>
+    [Required(ErrorMessage = "O campo Categoria é obrigatório.")]
+    [Display(Name = "Categoria")]
+    public int CategoriaId { get; set; }
+
+    /// <summary>
+    /// Lista de categorias disponíveis para seleção na tela de criação/edição.
+    /// </summary>
+    public IEnumerable<SelectListItem>? Categorias { get; set; }
 }
