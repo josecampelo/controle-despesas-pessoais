@@ -105,7 +105,7 @@
 
           const token = this.querySelector('input[name="__RequestVerificationToken"]').value;
 
-          const res = await fetch('/Categorias/Create', {
+          const res = await fetch('/Categorias/CreateJson', {
               method: 'POST',
               body: form,
               headers: { 'RequestVerificationToken': token }

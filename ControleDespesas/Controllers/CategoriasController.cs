@@ -19,7 +19,7 @@ public class CategoriasController : Controller
     /// Ex.: GET /Categorias?tipo=Despesa
     /// </summary>
     [HttpGet]
-    public async Task<IActionResult> Index([FromQuery] TipoTransacao? tipo)
+    public async Task<IActionResult> ListJson([FromQuery] TipoTransacao? tipo)
     {
         var query = _context.Categorias.AsQueryable();
 
@@ -40,7 +40,7 @@ public class CategoriasController : Controller
     /// </summary>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([FromForm] string nome, [FromForm] TipoTransacao tipo)
+    public async Task<IActionResult> CreateJson([FromForm] string nome, [FromForm] TipoTransacao tipo)
     {
         if (string.IsNullOrWhiteSpace(nome))
             return BadRequest("O campo Nome é obrigatório.");
