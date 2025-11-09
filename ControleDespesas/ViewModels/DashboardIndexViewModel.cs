@@ -28,4 +28,14 @@ public class DashboardIndexViewModel
     [Display(Name = "Saldo Final")]
     [DisplayFormat(DataFormatString = "{0:C}")]
     public decimal SaldoFinal { get; set; }
+
+    /// <summary>
+    /// Rótulos do gráfico de pizza (nomes das categorias de despesa).
+    /// </summary>
+    public List<string> CategoriasDespesas { get; set; } = new();
+
+    /// <summary>
+    /// Valores do gráfico de pizza (soma das despesas por categoria).
+    /// </summary>
+    public List<decimal> ValoresDespesas { get; set; } = new();
 }
