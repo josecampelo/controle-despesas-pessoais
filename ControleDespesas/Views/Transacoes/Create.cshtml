@@ -8,6 +8,13 @@
 <hr />
 
 <div class="row">
+    @if (Model.Categorias.Count() == 0)
+    {
+        <div class="alert alert-warning">
+            <strong>Atenção:</strong> Crie uma categoria antes de criar uma transação. <a asp-controller="Categorias" asp-action="Create" class="alert-link">Clique aqui para criar uma categoria.</a>
+        </div>
+    }
+
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -30,16 +37,9 @@
                 <span asp-validation-for="Tipo" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <label asp-for="CategoriaId" class="control-label"></label>
-                    <button type="button" class="btn btn-sm btn-outline-success"
-                            data-bs-toggle="modal" data-bs-target="#novaCategoriaModal"
-                            id="btnNovaCategoria" disabled>
-                        Nova categoria
-                    </button>
-                </div>
-                <select asp-for="CategoriaId" class="form-select" asp-items="Model.Categorias" id="CategoriaId" disabled>
-                    <option value="">Selecione um tipo primeiro...</option>
+                <label asp-for="CategoriaId" class="control-label"></label>
+                <select asp-for="CategoriaId" class="form-select" asp-items="Model.Categorias">
+                    <option value="" selected>Selecione...</option>
                 </select>
                 <span asp-validation-for="CategoriaId" class="text-danger"></span>
             </div>
@@ -59,37 +59,6 @@
                 </div>
             </div>
         </form>
-        <div class="modal fade" id="novaCategoriaModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
-                <form id="formNovaCategoria" class="modal-content">
-                    @Html.AntiForgeryToken()
-                    <div class="modal-header">
-                        <h5 class="modal-title">Nova Categoria</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Nome</label>
-                            <input name="nome" class="form-control" maxlength="60" required />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Tipo</label>
-                            <select name="tipo" class="form-select" required>
-                                <option value="">Selecione...</option>
-                                <option value="Receita">Receita</option>
-                                <option value="Despesa">Despesa</option>
-                            </select>
-                        </div>
-                        <div id="erroCategoria" class="text-danger d-none"></div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Salvar</button>
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
     </div>
 </div>
 
@@ -97,72 +66,4 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
-    <script>
-        document.getElementById('formNovaCategoria').addEventListener('submit', async function (e) {
-          e.preventDefault();
-          const form = new FormData(this);
-
-          const token = this.querySelector('input[name="__RequestVerificationToken"]').value;
-
-          const res = await fetch('/Categorias/CreateJson', {
-              method: 'POST',
-              body: form,
-              headers: { 'RequestVerificationToken': token }
-          });
-
-          const erro = document.getElementById('erroCategoria');
-          erro.classList.add('d-none');
-
-          if (res.ok) {
-            const novaCategoria = await res.json();
-            const select = document.getElementById('CategoriaId');
-            const opt = new Option(novaCategoria.nome, novaCategoria.id, true, true);
-            select.add(opt);
-            bootstrap.Modal.getInstance(document.getElementById('novaCategoriaModal')).hide();
-            this.reset();
-          } else {
-            erro.textContent = await res.text();
-            erro.classList.remove('d-none');
-          }
-        });
-    </script>
-
-    <script>
-        const tipoSelect = document.getElementById('Tipo');
-        const categoriaSelect = document.getElementById('CategoriaId');
-        const btnNovaCategoria = document.getElementById('btnNovaCategoria');
-
-        tipoSelect.addEventListener('change', async function () {
-            const tipo = this.value;
-            categoriaSelect.innerHTML = '';
-
-            if (!tipo) {
-                categoriaSelect.disabled = true;
-                btnNovaCategoria.disabled = true;
-                categoriaSelect.innerHTML = '<option value="">Selecione um tipo primeiro...</option>';
-                return;
-            }
-
-            const res = await fetch(`/Categorias?tipo=${encodeURIComponent(tipo)}`);
-            
-            if (!res.ok) return;
-
-            const categorias = await res.json();
-
-            if (categorias.length === 0) {
-                categoriaSelect.innerHTML = '<option value="">Nenhuma categoria encontrada</option>';
-            } else {
-                categoriaSelect.innerHTML = '<option value="">Selecione...</option>';
-                categorias.forEach(c => {
-                    const opt = new Option(c.nome, c.id);
-                    categoriaSelect.add(opt);
-                });
-            }
-
-            categoriaSelect.disabled = false;
-            btnNovaCategoria.disabled = false;
-        });
-    </script>
-
 }
