@@ -69,3 +69,72 @@
         </div>
     </div>
 </div>
+
+<div class="card mt-4 shadow-sm">
+    <div class="card-body text-center">
+        <div class="chart-container" style="position: relative; height: 400px; width: 100%;">
+            <canvas id="graficoDespesasPorCategoria"></canvas>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+    <script>
+        const categorias = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CategoriasDespesas));
+        const valores = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ValoresDespesas));
+
+        if (categorias.length === 0) {
+            document.querySelector('.chart-container').innerHTML =
+                '<p class="text-muted mt-3">Nenhuma despesa registrada neste mês.</p>';
+        } else {
+            const ctx = document.getElementById('graficoDespesasPorCategoria').getContext('2d');
+
+            const total = valores.reduce((acc, v) => acc + v, 0);
+
+            const cores = categorias.map((_, i) => {
+                const hue = Math.round((360 / categorias.length) * i);
+                return `hsl(${hue}, 70%, 60%)`;
+            });
+
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: categorias,
+                    datasets: [{
+                        data: valores,
+                        backgroundColor: cores,
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { font: { size: 14 } }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Despesas por Categoria',
+                            font: { size: 18 }
+                        },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold', size: 13 },
+                            formatter: (value) => {
+                                const pct = ((value / total) * 100).toFixed(1);
+                                return pct + '%';
+                            }
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels]
+            });
+        }
+    </script>
+}
