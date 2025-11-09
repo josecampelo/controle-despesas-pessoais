@@ -74,6 +74,64 @@ public class CategoriasController : Controller
     }
 
     /// <summary>
+    /// Exibe o formulário de edição de uma categoria existente.
+    /// </summary>
+    [HttpGet]
+    public async Task<IActionResult> Edit(int? id)
+    {
+        if (id == null)
+            return NotFound();
+
+        var categoria = await _context.Categorias.FindAsync(id);
+
+        if (categoria == null)
+            return NotFound();
+
+        return View(categoria);
+    }
+
+    /// <summary>
+    /// Recebe os dados do formulário e atualiza a categoria no banco de dados.
+    /// </summary>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditAsync(int id, [Bind("Id,Nome,Tipo")] Categoria model)
+    {
+        if (id != model.Id)
+            return NotFound();
+
+        model.Nome = model.Nome?.Trim() ?? string.Empty;
+
+        if (!ModelState.IsValid)
+            return View("Edit", model);
+
+        var duplicada = await _context.Categorias
+            .AnyAsync(c => c.Id != model.Id && c.Nome == model.Nome && c.Tipo == model.Tipo);
+
+        if (duplicada)
+        {
+            ModelState.AddModelError(nameof(Categoria.Nome),
+                "Já existe uma categoria com esse nome e tipo.");
+            return View("Edit", model);
+        }
+
+        try
+        {
+            _context.Update(model);
+            await _context.SaveChangesAsync();
+            TempData["Sucesso"] = "Categoria atualizada com sucesso.";
+            return RedirectToAction("Index");
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!_context.Categorias.Any(c => c.Id == model.Id))
+                return NotFound();
+
+            throw;
+        }
+    }
+
+    /// <summary>
     /// Retorna categorias (opcionalmente filtradas por tipo) em JSON.
     /// Ex.: GET /Categorias?tipo=Despesa
     /// </summary>
