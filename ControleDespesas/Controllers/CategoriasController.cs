@@ -15,6 +15,20 @@ public class CategoriasController : Controller
     }
 
     /// <summary>
+    /// Exibe a lista de todas as categorias cadastradas.
+    /// </summary>
+    [HttpGet]
+    public async Task<IActionResult> IndexAsync()
+    {
+        var categorias = await _context.Categorias
+            .OrderBy(c => c.Tipo)
+            .ThenBy(c => c.Nome)
+            .ToListAsync();
+
+        return View("Index", categorias);
+    }
+
+    /// <summary>
     /// Retorna categorias (opcionalmente filtradas por tipo) em JSON.
     /// Ex.: GET /Categorias?tipo=Despesa
     /// </summary>
