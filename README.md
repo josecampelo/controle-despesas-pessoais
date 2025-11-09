@@ -6,6 +6,11 @@ Aplicação web desenvolvida em **ASP.NET Core 8 MVC** para gerenciamento de fin
 
 ## ✨ Funcionalidades
 
+### Gerenciamento de Categorias e Gráfico de Despesas (Etapa 3)
+- **Cadastro e Organização de Categorias:** Permite criar, editar e excluir categorias personalizadas (ex: Alimentação, Moradia, Transporte).
+- **Associação de Categorias às Transações:** Cada receita ou despesa agora pode ser vinculada a uma categoria específica, garantindo melhor controle financeiro.
+- **Gráfico de Pizza no Dashboard:** Mostra a distribuição percentual das despesas do mês por categoria, utilizando Chart.js e exibindo porcentagens diretamente nas fatias.
+
 ### Dashboard (Etapa 2)
 - **Resumo Financeiro Mensal:** Cards de destaque exibem o total de receitas, despesas e o saldo final do mês corrente.
 - **Interface Intuitiva:** Layout visualmente claro com cores e ícones que facilitam a rápida identificação do status financeiro.
@@ -24,7 +29,7 @@ O projeto é dividido em 4 etapas principais:
 
 - [x] **Etapa 1: Estruturação e CRUD Inicial** - _Concluída em 13/09/2025_
 - [x] **Etapa 2: Dashboard com Resumo Financeiro** - _Concluída em 11/10/2025_
-- [ ] **Etapa 3: Gerenciamento de Categorias e Gráfico de Despesas**
+- [x] **Etapa 3: Gerenciamento de Categorias e Gráfico de Despesas**
 - [ ] **Etapa 4: Finalização do CRUD (Editar/Excluir) e Filtros**
 
 ---
