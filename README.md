@@ -29,7 +29,7 @@ O projeto é dividido em 4 etapas principais:
 
 - [x] **Etapa 1: Estruturação e CRUD Inicial** - _Concluída em 13/09/2025_
 - [x] **Etapa 2: Dashboard com Resumo Financeiro** - _Concluída em 11/10/2025_
-- [x] **Etapa 3: Gerenciamento de Categorias e Gráfico de Despesas**
+- [x] **Etapa 3: Gerenciamento de Categorias e Gráfico de Despesas** - _Concluída em 09/11/2025_
 - [ ] **Etapa 4: Finalização do CRUD (Editar/Excluir) e Filtros**
 
 ---
@@ -94,3 +94,4 @@ Siga os passos abaixo para rodar o projeto em seu ambiente local.
 ## 📝 Licença
 
 Este projeto é de natureza acadêmica e não possui uma licença formal para distribuição ou uso comercial.
+
