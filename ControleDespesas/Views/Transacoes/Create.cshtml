@@ -33,15 +33,17 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <label asp-for="CategoriaId" class="control-label"></label>
                     <button type="button" class="btn btn-sm btn-outline-success"
-                            data-bs-toggle="modal" data-bs-target="#novaCategoriaModal">
+                            data-bs-toggle="modal" data-bs-target="#novaCategoriaModal"
+                            id="btnNovaCategoria" disabled>
                         Nova categoria
                     </button>
                 </div>
-                <select asp-for="CategoriaId" class="form-select" asp-items="Model.Categorias">
-                    <option value="">Selecione...</option>
+                <select asp-for="CategoriaId" class="form-select" asp-items="Model.Categorias" id="CategoriaId" disabled>
+                    <option value="">Selecione um tipo primeiro...</option>
                 </select>
                 <span asp-validation-for="CategoriaId" class="text-danger"></span>
             </div>
+
             <div class="form-group mb-3">
                 <label asp-for="Data" class="control-label"></label>
                 <input asp-for="Data" class="form-control" />
@@ -125,4 +127,42 @@
           }
         });
     </script>
+
+    <script>
+        const tipoSelect = document.getElementById('Tipo');
+        const categoriaSelect = document.getElementById('CategoriaId');
+        const btnNovaCategoria = document.getElementById('btnNovaCategoria');
+
+        tipoSelect.addEventListener('change', async function () {
+            const tipo = this.value;
+            categoriaSelect.innerHTML = '';
+
+            if (!tipo) {
+                categoriaSelect.disabled = true;
+                btnNovaCategoria.disabled = true;
+                categoriaSelect.innerHTML = '<option value="">Selecione um tipo primeiro...</option>';
+                return;
+            }
+
+            const res = await fetch(`/Categorias?tipo=${encodeURIComponent(tipo)}`);
+            
+            if (!res.ok) return;
+
+            const categorias = await res.json();
+
+            if (categorias.length === 0) {
+                categoriaSelect.innerHTML = '<option value="">Nenhuma categoria encontrada</option>';
+            } else {
+                categoriaSelect.innerHTML = '<option value="">Selecione...</option>';
+                categorias.forEach(c => {
+                    const opt = new Option(c.nome, c.id);
+                    categoriaSelect.add(opt);
+                });
+            }
+
+            categoriaSelect.disabled = false;
+            btnNovaCategoria.disabled = false;
+        });
+    </script>
+
 }
