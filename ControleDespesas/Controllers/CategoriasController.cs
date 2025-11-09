@@ -132,6 +132,59 @@ public class CategoriasController : Controller
     }
 
     /// <summary>
+    /// Exibe a página de confirmação para excluir uma categoria.
+    /// </summary>
+    [HttpGet]
+    public async Task<IActionResult> Delete(int? id)
+    {
+        if (id == null)
+            return NotFound();
+
+        var categoria = await _context.Categorias
+            .AsNoTracking()
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+        if (categoria == null)
+            return NotFound();
+
+        return View(categoria);
+    }
+
+    /// <summary>
+    /// Confirma a exclusão da categoria, se não houver transações vinculadas.
+    /// </summary>
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        var categoria = await _context.Categorias.FindAsync(id);
+        if (categoria == null)
+            return NotFound();
+
+        bool temTransacoes = await _context.Transacoes
+            .AnyAsync(t => t.CategoriaId == id);
+
+        if (temTransacoes)
+        {
+            TempData["Erro"] = "Não é possível excluir uma categoria associada a transações existentes.";
+            return RedirectToAction("Index");
+        }
+
+        try
+        {
+            _context.Categorias.Remove(categoria);
+            await _context.SaveChangesAsync();
+            TempData["Sucesso"] = "Categoria excluída com sucesso.";
+        }
+        catch (DbUpdateException)
+        {
+            TempData["Erro"] = "Ocorreu um erro ao tentar excluir a categoria.";
+        }
+
+        return RedirectToAction("Index");
+    }
+
+    /// <summary>
     /// Retorna categorias (opcionalmente filtradas por tipo) em JSON.
     /// Ex.: GET /Categorias?tipo=Despesa
     /// </summary>
