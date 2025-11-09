@@ -33,4 +33,16 @@ public class Transacao
     /// A data e hora em que a transação ocorreu.
     /// </summary>
     public DateTime Data { get; set; }
+
+    /// <summary>
+    /// Identificador da categoria associada a esta transação.
+    /// Representa a relação com a tabela de Categorias no banco de dados.
+    /// </summary>
+    public int CategoriaId { get; set; }
+
+    /// <summary>
+    /// Categoria associada a esta transação.
+    /// Permite o acesso direto aos dados da categoria (navegação).
+    /// </summary>
+    public Categoria? Categoria { get; set; }
 }

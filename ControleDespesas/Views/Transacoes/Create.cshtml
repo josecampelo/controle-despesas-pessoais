@@ -8,6 +8,13 @@
 <hr />
 
 <div class="row">
+    @if (Model.Categorias.Count() == 0)
+    {
+        <div class="alert alert-warning">
+            <strong>Atenção:</strong> Crie uma categoria antes de criar uma transação. <a asp-controller="Categorias" asp-action="Create" class="alert-link">Clique aqui para criar uma categoria.</a>
+        </div>
+    }
+
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -29,6 +36,14 @@
                 </select>
                 <span asp-validation-for="Tipo" class="text-danger"></span>
             </div>
+            <div class="form-group mb-3">
+                <label asp-for="CategoriaId" class="control-label"></label>
+                <select asp-for="CategoriaId" class="form-select" asp-items="Model.Categorias">
+                    <option value="" selected>Selecione...</option>
+                </select>
+                <span asp-validation-for="CategoriaId" class="text-danger"></span>
+            </div>
+
             <div class="form-group mb-3">
                 <label asp-for="Data" class="control-label"></label>
                 <input asp-for="Data" class="form-control" />

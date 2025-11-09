@@ -2,6 +2,7 @@
 using ControleDespesas.Models;
 using ControleDespesas.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace ControleDespesas.Controllers;
@@ -38,15 +39,25 @@ public class TransacoesController : Controller
 
     /// <summary>
     /// Action para exibir o formulário de criação de uma nova transação.
+    /// Agora também carrega a lista de categorias disponíveis.
     /// </summary>
     [HttpGet]
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
-        return View();
+        var categorias = await ObterCategoriasAsync();
+
+        var viewModel = new TransacaoViewModel
+        {
+            Data = DateTime.Now,
+            Categorias = categorias
+        };
+
+        return View(viewModel);
     }
 
     /// <summary>
     /// Action que recebe os dados do formulário e cria uma nova transação no banco.
+    /// Agora inclui o vínculo com a categoria selecionada.
     /// </summary>
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -61,7 +72,8 @@ public class TransacoesController : Controller
                     Descricao = model.Descricao,
                     Valor = model.Valor,
                     Tipo = model.Tipo,
-                    Data = model.Data
+                    Data = model.Data,
+                    CategoriaId = model.CategoriaId
                 };
 
                 _context.Add(transacao);
@@ -75,6 +87,23 @@ public class TransacoesController : Controller
             ModelState.AddModelError("", "Não foi possível salvar os dados.");
         }
 
+        model.Categorias = await ObterCategoriasAsync();
+
         return View("Create", model);
+    }
+
+    /// <summary>
+    /// Carrega todas as categorias do banco e retorna uma lista formatada para exibição em um dropdown.
+    /// </summary>
+    private async Task<List<SelectListItem>> ObterCategoriasAsync()
+    {
+        return await _context.Categorias
+            .OrderBy(c => c.Nome)
+            .Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = $"{c.Nome} ({c.Tipo})"
+            })
+            .ToListAsync();
     }
 }
