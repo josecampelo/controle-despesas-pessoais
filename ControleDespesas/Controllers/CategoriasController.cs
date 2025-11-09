@@ -29,6 +29,51 @@ public class CategoriasController : Controller
     }
 
     /// <summary>
+    /// Exibe o formulário de criação de uma nova categoria.
+    /// </summary>
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    /// <summary>
+    /// Recebe os dados do formulário e cria uma nova categoria.
+    /// </summary>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateAsync([Bind("Nome,Tipo")] Categoria model)
+    {
+        model.Nome = model.Nome?.Trim() ?? string.Empty;
+
+        if (!ModelState.IsValid)
+            return View("Create", model);
+
+        var existe = await _context.Categorias
+            .AnyAsync(c => c.Nome == model.Nome && c.Tipo == model.Tipo);
+
+        if (existe)
+        {
+            ModelState.AddModelError(nameof(Categoria.Nome),
+                "Já existe uma categoria com esse nome para esse tipo.");
+            return View("Create", model);
+        }
+
+        try
+        {
+            _context.Categorias.Add(model);
+            await _context.SaveChangesAsync();
+            TempData["Sucesso"] = "Categoria criada com sucesso.";
+            return RedirectToAction("Index");
+        }
+        catch (DbUpdateException)
+        {
+            ModelState.AddModelError("", "Não foi possível salvar os dados.");
+            return View("Create", model);
+        }
+    }
+
+    /// <summary>
     /// Retorna categorias (opcionalmente filtradas por tipo) em JSON.
     /// Ex.: GET /Categorias?tipo=Despesa
     /// </summary>
