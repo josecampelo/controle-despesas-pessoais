@@ -39,11 +39,24 @@ public class DashboardController : Controller
         var despesaTotal = await CalculaDespesaTotal(inicioMes, fimMes);
         var saldoFinal = CalculaSaldoFinal(receitaTotal, despesaTotal);
 
-        var dashboard = new DashboardIndexViewModel()
+        var despesasPorCategoria = await (
+            from transacao in _context.Transacoes
+            where transacao.Tipo == TipoTransacao.Despesa
+               && transacao.Data >= inicioMes && transacao.Data <= fimMes
+            group transacao by transacao.CategoriaId into g
+            join categoria in _context.Categorias on g.Key equals categoria.Id
+            select new { Categoria = categoria.Nome, Total = g.Sum(x => x.Valor) }
+        )
+        .OrderByDescending(x => x.Total)
+        .ToListAsync();
+
+        var dashboard = new DashboardIndexViewModel
         {
             ReceitaTotal = receitaTotal,
             DespesaTotal = despesaTotal,
-            SaldoFinal = saldoFinal
+            SaldoFinal = saldoFinal,
+            CategoriasDespesas = despesasPorCategoria.Select(x => x.Categoria).ToList(),
+            ValoresDespesas = despesasPorCategoria.Select(x => x.Total).ToList()
         };
 
         return View("Index", dashboard);
