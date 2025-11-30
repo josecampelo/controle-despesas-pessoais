@@ -17,13 +17,35 @@ public class TransacoesController : Controller
     }
 
     /// <summary>
-    /// Action para exibir a lista de todas as transações.
+    /// Action para exibir a lista de transações com filtros de Mês, Ano, Tipo e Descrição.
     /// </summary>
+    /// <param name="mes">O mês para filtrar (1 a 12).</param>
+    /// <param name="ano">O ano para filtrar.</param>
+    /// <param name="tipo">O tipo de transação (Receita/Despesa).</param>
+    /// <param name="descricao">Texto para busca parcial na descrição.</param>
     [HttpGet]
-    public async Task<IActionResult> IndexAsync()
+    public async Task<IActionResult> IndexAsync(int? mes, int? ano, TipoTransacao? tipo, string? descricao)
     {
-        var model = await _context.Transacoes
-            .OrderByDescending(transacao => transacao.Id)
+        var dataAtual = DateTime.Now;
+        int mesFiltro = mes ?? dataAtual.Month;
+        int anoFiltro = ano ?? dataAtual.Year;
+        var query = _context.Transacoes.AsQueryable();
+
+        query = query.Where(t => t.Data.Month == mesFiltro && t.Data.Year == anoFiltro);
+
+        if (tipo.HasValue)
+        {
+            query = query.Where(t => t.Tipo == tipo.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(descricao))
+        {
+            query = query.Where(t => t.Descricao.Contains(descricao));
+        }
+
+        var model = await query
+            .OrderByDescending(transacao => transacao.Data)
+            .ThenByDescending(transacao => transacao.Id)
             .Select(transacao => new TransacaoIndexViewModel
             {
                 Id = transacao.Id,
@@ -34,7 +56,46 @@ public class TransacoesController : Controller
             })
             .ToListAsync();
 
+        CarregarViewBagFiltros(mesFiltro, anoFiltro);
+
+        ViewBag.FiltroTipo = tipo;
+        ViewBag.FiltroDescricao = descricao;
+
         return View("Index", model);
+    }
+
+    /// <summary>
+    /// Método auxiliar para preencher as listas de seleção (Meses e Anos) na interface de filtro.
+    /// </summary>
+    private void CarregarViewBagFiltros(int mesSelecionado, int anoSelecionado)
+    {
+        var meses = new List<SelectListItem>();
+        for (int i = 1; i <= 12; i++)
+        {
+            var nomeMes = System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(i);
+            nomeMes = char.ToUpper(nomeMes[0]) + nomeMes.Substring(1);
+
+            meses.Add(new SelectListItem
+            {
+                Value = i.ToString(),
+                Text = nomeMes,
+                Selected = i == mesSelecionado
+            });
+        }
+        ViewBag.Meses = meses;
+
+        var anoAtual = DateTime.Now.Year;
+        var anos = new List<SelectListItem>();
+        for (int i = anoAtual - 5; i <= anoAtual + 1; i++)
+        {
+            anos.Add(new SelectListItem
+            {
+                Value = i.ToString(),
+                Text = i.ToString(),
+                Selected = i == anoSelecionado
+            });
+        }
+        ViewBag.Anos = anos;
     }
 
     /// <summary>
