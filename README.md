@@ -6,6 +6,11 @@ Aplicação web desenvolvida em **ASP.NET Core 8 MVC** para gerenciamento de fin
 
 ## ✨ Funcionalidades
 
+### CRUD de Transações e Filtros Avançados (Etapa 4)
+- **Edição e Exclusão:** Ciclo de vida completo das transações, permitindo corrigir valores, alterar categorias ou remover registros lançados incorretamente.
+- **Filtros de Pesquisa:** Barra de busca robusta que permite filtrar transações simultaneamente por Mês, Ano, Tipo (Receita/Despesa) e busca textual por Descrição.
+- **Persistência de Filtros:** A interface mantém os filtros selecionados ativos após a pesquisa ou edição, melhorando a experiência do usuário.
+
 ### Gerenciamento de Categorias e Gráfico de Despesas (Etapa 3)
 - **Cadastro e Organização de Categorias:** Permite criar, editar e excluir categorias personalizadas (ex: Alimentação, Moradia, Transporte).
 - **Associação de Categorias às Transações:** Cada receita ou despesa agora pode ser vinculada a uma categoria específica, garantindo melhor controle financeiro.
@@ -30,7 +35,7 @@ O projeto é dividido em 4 etapas principais:
 - [x] **Etapa 1: Estruturação e CRUD Inicial** - _Concluída em 13/09/2025_
 - [x] **Etapa 2: Dashboard com Resumo Financeiro** - _Concluída em 11/10/2025_
 - [x] **Etapa 3: Gerenciamento de Categorias e Gráfico de Despesas** - _Concluída em 09/11/2025_
-- [ ] **Etapa 4: Finalização do CRUD (Editar/Excluir) e Filtros**
+- [x] **Etapa 4: Finalização do CRUD (Editar/Excluir) e Filtros** - _Concluída em 30/11/2025_
 
 ---
 
@@ -94,4 +99,3 @@ Siga os passos abaixo para rodar o projeto em seu ambiente local.
 ## 📝 Licença
 
 Este projeto é de natureza acadêmica e não possui uma licença formal para distribuição ou uso comercial.
-
